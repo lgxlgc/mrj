@@ -1,0 +1,160 @@
+<html lang="zh">
+<head>
+    <title>小莫数据转换</title>
+    <style>
+        #app {
+
+            width: 40em;
+            margin: 3em auto 0;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        table {
+            margin-top: 5em;
+            border: #444444 solid 1px;
+            border-collapse: collapse;
+        }
+
+        tr {
+            border: #444444 solid 1px;
+        }
+
+        td {
+            border: #444444 solid 1px;
+            width: 10em;
+        }
+
+        .short {
+            width: 5em;
+        }
+
+        input {
+            border: none;
+        }
+        .container {
+            width: 20em;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h3>数据转换</h3>
+    <div class="container"><label for="input">复制数据到此处</label><br><br>
+        <textarea name="data" id="input" cols="30" rows="10" v-model="oldData"></textarea>
+    </div>
+
+    <br><label for="three">第三行：</label><input type="text" id="three" v-model="three">
+    <label for="threeStart">开始行：</label>
+    <select name="threeSelect" id="threeStart" v-model="threeStart">
+        <option :value="index" v-for="index in newData.length">{{index}}</option>
+    </select>
+    <label for="threeEnd">结束行：</label>
+    <select name="threeSelect" id="threeEnd" v-model="threeEnd">
+        <option :value="index" v-for="index in newData.length">{{index}}</option>
+    </select>
+    <br><label for="four">第四行：</label><input type="text" id="four" v-model="four">
+    <label for="fourStart">开始行：</label>
+    <select name="threeSelect" id="fourStart" v-model="fourStart">
+        <option :value="index" v-for="index in newData.length">{{index}}</option>
+    </select>
+    <label for="fourEnd">结束行：</label>
+    <select name="threeSelect" id="fourEnd" v-model="fourEnd">
+        <option :value="index" v-for="index in newData.length">{{index}}</option>
+    </select>
+    <br>
+    <table>
+        <tr v-for="(rowData,index) in newData">
+            <td><input type="text" :value="rowData.split('+')[0]"></td>
+            <td><input type="text" :value="rowData.split('+')[1]"></td>
+            <td class="short"></td>
+            <td class="short"><input class="short" type="text" :value="threeData[index]"></td>
+            <td class="short"><input class="short" type="text" :value="fourData[index]"></td>
+        </tr>
+    </table>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            oldData: '',
+            three: '',
+            four: '',
+            threeStart: 1,
+            threeEnd: 1,
+            fourStart: 1,
+            fourEnd: 1,
+            threeData: new Array(100),
+            fourData: new Array(100)
+        },
+        watch: {
+            threeStart: function () {
+                if (this.threeEnd < this.threeStart) {
+                    alert('开始行不能大于结束行')
+                } else {
+                    for (let i = this.threeStart - 1; i < this.threeEnd; i++) {
+                        this.threeData[i] = this.three
+                    }
+                }
+            },
+            three: function () {
+                if (this.threeEnd < this.threeStart) {
+                    alert('开始行不能大于结束行')
+                } else {
+                    for (let i = this.threeStart - 1; i < this.threeEnd; i++) {
+                        this.threeData[i] = this.three
+                    }
+                }
+            },
+            four: function () {
+                if (this.fourEnd < this.fourStart) {
+                    alert('开始行不能大于结束行')
+                } else {
+                    for (let i = this.fourStart - 1; i < this.fourEnd; i++) {
+                        this.fourData[i] = this.four
+                    }
+                }
+            },
+            fourStart: function () {
+                if (this.fourEnd < this.fourStart) {
+                    alert('开始行不能大于结束行')
+                } else {
+                    for (let i = this.fourStart - 1; i < this.fourEnd; i++) {
+                        this.fourData[i] = this.four
+                    }
+                }
+            },
+            threeEnd: function () {
+                if (this.threeEnd < this.threeStart) {
+                    alert('结束行不能小于开始行')
+                } else {
+                    for (let i = this.threeStart - 1; i < this.threeEnd; i++) {
+                        this.threeData[i] = this.three
+                    }
+                }
+            },
+            fourEnd: function () {
+                if (this.fourEnd < this.fourStart) {
+                    alert('结束行不能小于开始行')
+                } else {
+                    for (let i = this.fourStart - 1; i < this.fourEnd; i++) {
+                        this.fourData[i] = this.four
+                    }
+                }
+            }
+        },
+        computed: {
+            newData: function () {
+                return this.oldData.trim().split('\n')
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
